@@ -17,11 +17,13 @@ class Cliente(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     nome = Column(String, nullable=False)
     cpf = Column(String(11), nullable=False)
+    endereco = Column(String, nullable=False)
 
     conta = relationship("Conta", back_populates="cliente")
 
     def __repr__(self):
-        return f"Cliente(id={self.id}, nome={self.nome}, cpf={self.cpf})"
+        return f"Cliente(id={self.id}, nome={self.nome}, cpf={self.cpf}, "\
+               f"endereco={self.endereco})"
 
 
 class Conta(Base):
@@ -48,9 +50,17 @@ Base.metadata.create_all(engine)
 
 
 with Session(engine) as session:
-    cliente_1 = Cliente(nome="João", cpf="11111111111")
-    cliente_2 = Cliente(nome="Maria", cpf="22222222222")
-    cliente_3 = Cliente(nome="José", cpf="33333333333")
+    cliente_1 = Cliente(nome="João",
+                        cpf="11111111111",
+                        endereco="Rua A")
+    
+    cliente_2 = Cliente(nome="Maria",
+                        cpf="22222222222",
+                        endereco="Rua B")
+    
+    cliente_3 = Cliente(nome="José",
+                        cpf="33333333333",
+                        endereco="Rua C")
 
     session.add_all([cliente_1, cliente_2, cliente_3])
     session.commit()
